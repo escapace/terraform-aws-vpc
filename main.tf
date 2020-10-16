@@ -1,76 +1,39 @@
 locals {
+  enabled                                         = module.this.enabled
+  enable_default_security_group_with_custom_rules = var.enable_default_security_group_with_custom_rules && local.enabled ? 1 : 0
+  enable_internet_gateway                         = var.enable_internet_gateway && local.enabled ? 1 : 0
+}
 
-  defaults = {
-    label_order = ["namespace", "environment", "stage", "name", "attributes"]
-    delimiter   = "-"
-    replacement = ""
-    # The `sentinel` should match the `regex_replace_chars`, so it will be replaced with the `replacement` value
-    sentinel   = "~"
-    attributes = [""]
-  }
 
-  # The values provided by variables supersede the values inherited from the context
+module "label" {
+  source  = "app.terraform.io/escapace/label/null"
+  version = "1.2.0"
 
-  enabled             = var.enabled
-  regex_replace_chars = coalesce(var.regex_replace_chars, var.context.regex_replace_chars)
+  context = module.this.context
+}
 
-  name               = lower(replace(coalesce(var.name, var.context.name, local.defaults.sentinel), local.regex_replace_chars, local.defaults.replacement))
-  namespace          = lower(replace(coalesce(var.namespace, var.context.namespace, local.defaults.sentinel), local.regex_replace_chars, local.defaults.replacement))
-  environment        = lower(replace(coalesce(var.environment, var.context.environment, local.defaults.sentinel), local.regex_replace_chars, local.defaults.replacement))
-  stage              = lower(replace(coalesce(var.stage, var.context.stage, local.defaults.sentinel), local.regex_replace_chars, local.defaults.replacement))
-  delimiter          = coalesce(var.delimiter, var.context.delimiter, local.defaults.delimiter)
-  label_order        = length(var.label_order) > 0 ? var.label_order : (length(var.context.label_order) > 0 ? var.context.label_order : local.defaults.label_order)
-  additional_tag_map = merge(var.context.additional_tag_map, var.additional_tag_map)
+resource "aws_vpc" "default" {
+  count                            = local.enabled ? 1 : 0
+  cidr_block                       = var.cidr_block
+  instance_tenancy                 = var.instance_tenancy
+  enable_dns_hostnames             = var.enable_dns_hostnames
+  enable_dns_support               = var.enable_dns_support
+  enable_classiclink               = var.enable_classiclink
+  enable_classiclink_dns_support   = var.enable_classiclink_dns_support
+  assign_generated_ipv6_cidr_block = true
+  tags                             = module.label.tags
+}
 
-  # Merge attributes
-  attributes = compact(distinct(concat(var.attributes, var.context.attributes, local.defaults.attributes)))
+# If `aws_default_security_group` is not defined, it would be created implicitly with access `0.0.0.0/0`
+resource "aws_default_security_group" "default" {
+  count  = local.enable_default_security_group_with_custom_rules
+  vpc_id = join("", aws_vpc.default.*.id)
 
-  tags = merge(var.context.tags, local.generated_tags, var.tags)
+  tags = merge(module.label.tags, { Name = "Default Security Group" })
+}
 
-  tags_as_list_of_maps = flatten([
-    for key in keys(local.tags) : merge(
-      {
-        key   = key
-        value = local.tags[key]
-    }, var.additional_tag_map)
-  ])
-
-  tags_context = {
-    # For AWS we need `Name` to be disambiguated since it has a special meaning
-    name        = local.id
-    namespace   = local.namespace
-    environment = local.environment
-    stage       = local.stage
-    attributes  = local.id_context.attributes
-  }
-
-  generated_tags = { for l in keys(local.tags_context) : title(l) => local.tags_context[l] if length(local.tags_context[l]) > 0 }
-
-  id_context = {
-    name        = local.name
-    namespace   = local.namespace
-    environment = local.environment
-    stage       = local.stage
-    attributes  = lower(replace(join(local.delimiter, local.attributes), local.regex_replace_chars, local.defaults.replacement))
-  }
-
-  labels = [for l in local.label_order : local.id_context[l] if length(local.id_context[l]) > 0]
-
-  id = lower(join(local.delimiter, local.labels))
-
-  # Context of this label to pass to other label modules
-  output_context = {
-    enabled             = local.enabled
-    name                = local.name
-    namespace           = local.namespace
-    environment         = local.environment
-    stage               = local.stage
-    attributes          = local.attributes
-    tags                = local.tags
-    delimiter           = local.delimiter
-    label_order         = local.label_order
-    regex_replace_chars = local.regex_replace_chars
-    additional_tag_map  = local.additional_tag_map
-  }
-
+resource "aws_internet_gateway" "default" {
+  count  = local.enable_internet_gateway
+  vpc_id = join("", aws_vpc.default.*.id)
+  tags   = module.label.tags
 }
