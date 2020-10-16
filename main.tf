@@ -2,6 +2,7 @@ locals {
   enabled                                         = module.this.enabled
   enable_default_security_group_with_custom_rules = var.enable_default_security_group_with_custom_rules && local.enabled ? 1 : 0
   enable_internet_gateway                         = var.enable_internet_gateway && local.enabled ? 1 : 0
+  enable_egress_only_internet_gateway             = var.enable_egress_only_internet_gateway && local.enabled ? 1 : 0
 }
 
 
@@ -34,6 +35,12 @@ resource "aws_default_security_group" "default" {
 
 resource "aws_internet_gateway" "default" {
   count  = local.enable_internet_gateway
+  vpc_id = join("", aws_vpc.default.*.id)
+  tags   = module.label.tags
+}
+
+resource "aws_egress_only_internet_gateway" "default" {
+  count  = local.enable_egress_only_internet_gateway
   vpc_id = join("", aws_vpc.default.*.id)
   tags   = module.label.tags
 }

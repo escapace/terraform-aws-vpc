@@ -44,3 +44,9 @@ variable "enable_internet_gateway" {
   description = "A boolean flag to enable/disable Internet Gateway creation"
   default     = true
 }
+
+variable "enable_egress_only_internet_gateway" {
+  type        = bool
+  description = "A boolean flag to enable/disable Egress Only Internet Gateway creation"
+  default     = true
+}
