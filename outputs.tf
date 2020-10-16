@@ -1,55 +1,44 @@
-output "id" {
-  value       = local.enabled ? local.id : ""
-  description = "Disambiguated ID"
+output "igw_id" {
+  value       = join("", aws_internet_gateway.default.*.id)
+  description = "The ID of the Internet Gateway"
 }
 
-output "name" {
-  value       = local.enabled ? local.name : ""
-  description = "Normalized name"
+output "vpc_id" {
+  value       = join("", aws_vpc.default.*.id)
+  description = "The ID of the VPC"
 }
 
-output "namespace" {
-  value       = local.enabled ? local.namespace : ""
-  description = "Normalized namespace"
+output "vpc_cidr_block" {
+  value       = join("", aws_vpc.default.*.cidr_block)
+  description = "The CIDR block of the VPC"
 }
 
-output "stage" {
-  value       = local.enabled ? local.stage : ""
-  description = "Normalized stage"
+output "vpc_main_route_table_id" {
+  value       = join("", aws_vpc.default.*.main_route_table_id)
+  description = "The ID of the main route table associated with this VPC"
 }
 
-output "environment" {
-  value       = local.enabled ? local.environment : ""
-  description = "Normalized environment"
+output "vpc_default_network_acl_id" {
+  value       = join("", aws_vpc.default.*.default_network_acl_id)
+  description = "The ID of the network ACL created by default on VPC creation"
 }
 
-output "attributes" {
-  value       = local.enabled ? local.attributes : []
-  description = "List of attributes"
+output "vpc_default_security_group_id" {
+  value       = join("", aws_vpc.default.*.default_security_group_id)
+  description = "The ID of the security group created by default on VPC creation"
 }
 
-output "delimiter" {
-  value       = local.enabled ? local.delimiter : ""
-  description = "Delimiter between `namespace`, `environment`, `stage`, `name` and `attributes`"
+output "vpc_default_route_table_id" {
+  value       = join("", aws_vpc.default.*.default_route_table_id)
+  description = "The ID of the route table created by default on VPC creation"
 }
 
-output "tags" {
-  value       = local.enabled ? local.tags : {}
-  description = "Normalized Tag map"
+output "vpc_ipv6_association_id" {
+  value       = join("", aws_vpc.default.*.ipv6_association_id)
+  description = "The association ID for the IPv6 CIDR block"
 }
 
-output "tags_as_list_of_maps" {
-  value       = local.tags_as_list_of_maps
-  description = "Additional tags as a list of maps, which can be used in several AWS resources"
+output "ipv6_cidr_block" {
+  value       = join("", aws_vpc.default.*.ipv6_cidr_block)
+  description = "The IPv6 CIDR block"
 }
-
-output "context" {
-  value       = local.output_context
-  description = "Context of this module to pass to other label modules"
-}
-
-output "label_order" {
-  value       = local.label_order
-  description = "The naming order of the id output and Name tag"
-}
-

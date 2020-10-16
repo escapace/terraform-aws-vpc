@@ -1,96 +1,46 @@
-variable "namespace" {
+variable "cidr_block" {
   type        = string
-  default     = ""
-  description = "Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp'"
+  description = "CIDR for the VPC"
 }
 
-variable "environment" {
+variable "instance_tenancy" {
   type        = string
-  default     = ""
-  description = "Environment, e.g. 'prod', 'staging', 'dev', 'pre-prod', 'UAT'"
+  description = "A tenancy option for instances launched into the VPC"
+  default     = "default"
 }
 
-variable "stage" {
-  type        = string
-  default     = ""
-  description = "Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release'"
-}
-
-variable "name" {
-  type        = string
-  default     = ""
-  description = "Solution name, e.g. 'app' or 'jenkins'"
-}
-
-variable "enabled" {
+variable "enable_dns_hostnames" {
   type        = bool
+  description = "A boolean flag to enable/disable DNS hostnames in the VPC"
   default     = true
-  description = "Set to false to prevent the module from creating any resources"
 }
 
-variable "delimiter" {
-  type        = string
-  default     = "-"
-  description = "Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`"
+variable "enable_dns_support" {
+  type        = bool
+  description = "A boolean flag to enable/disable DNS support in the VPC"
+  default     = true
 }
 
-variable "attributes" {
-  type        = list(string)
-  default     = []
-  description = "Additional attributes (e.g. `1`)"
+variable "enable_classiclink" {
+  type        = bool
+  description = "A boolean flag to enable/disable ClassicLink for the VPC"
+  default     = false
 }
 
-variable "tags" {
-  type        = map(string)
-  default     = {}
-  description = "Additional tags (e.g. `map('BusinessUnit','XYZ')`"
+variable "enable_classiclink_dns_support" {
+  type        = bool
+  description = "A boolean flag to enable/disable ClassicLink DNS Support for the VPC"
+  default     = false
 }
 
-variable "additional_tag_map" {
-  type        = map(string)
-  default     = {}
-  description = "Additional tags for appending to each tag map"
+variable "enable_default_security_group_with_custom_rules" {
+  type        = bool
+  description = "A boolean flag to enable/disable custom and restricive inbound/outbound rules for the default VPC's SG"
+  default     = true
 }
 
-variable "context" {
-  type = object({
-    namespace           = string
-    environment         = string
-    stage               = string
-    name                = string
-    enabled             = bool
-    delimiter           = string
-    attributes          = list(string)
-    label_order         = list(string)
-    tags                = map(string)
-    additional_tag_map  = map(string)
-    regex_replace_chars = string
-  })
-  default = {
-    namespace           = ""
-    environment         = ""
-    stage               = ""
-    name                = ""
-    enabled             = true
-    delimiter           = ""
-    attributes          = []
-    label_order         = []
-    tags                = {}
-    additional_tag_map  = {}
-    regex_replace_chars = ""
-  }
-  description = "Default context to use for passing state between label invocations"
+variable "enable_internet_gateway" {
+  type        = bool
+  description = "A boolean flag to enable/disable Internet Gateway creation"
+  default     = true
 }
-
-variable "label_order" {
-  type        = list(string)
-  default     = []
-  description = "The naming order of the id output and Name tag"
-}
-
-variable "regex_replace_chars" {
-  type        = string
-  default     = "/[^a-zA-Z0-9-]/"
-  description = "Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`. By default only hyphens, letters and digits are allowed, all other chars are removed"
-}
-
