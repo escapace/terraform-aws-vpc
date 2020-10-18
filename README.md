@@ -45,8 +45,8 @@
 
 | Name | Description |
 |------|-------------|
-| eoigw\_id | The ID of the Egress Only Internet Gateway |
-| igw\_id | The ID of the Internet Gateway |
+| egress\_only\_gateway\_id | The ID of the Egress Only Internet Gateway |
+| gateway\_id | The ID of the Internet Gateway |
 | ipv6\_cidr\_block | The IPv6 CIDR block |
 | vpc\_cidr\_block | The CIDR block of the VPC |
 | vpc\_default\_network\_acl\_id | The ID of the network ACL created by default on VPC creation |
