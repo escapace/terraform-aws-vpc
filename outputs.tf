@@ -1,9 +1,9 @@
-output "igw_id" {
+output "gateway_id" {
   value       = join("", aws_internet_gateway.default.*.id)
   description = "The ID of the Internet Gateway"
 }
 
-output "eoigw_id" {
+output "egress_only_gateway_id" {
   value       = join("", aws_egress_only_internet_gateway.default.*.id)
   description = "The ID of the Egress Only Internet Gateway"
 }
