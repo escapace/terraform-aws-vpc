@@ -78,8 +78,8 @@ variable "ipv6_enabled" {
 
 locals { ipv6_enabled = coalesce(var.ipv6_enabled) }
 
-variable "ipv6_egress_only_internet_gateway_enabled" {
+variable "egress_only_internet_gateway_enabled" {
   type        = bool
   description = "A boolean flag to enable/disable IPv6 Egress-Only Internet Gateway creation"
-  default     = false
+  default     = true
 }
