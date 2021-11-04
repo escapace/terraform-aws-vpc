@@ -1,6 +1,6 @@
 locals {
   enabled                                   = module.this.enabled
-  ipv6_egress_only_internet_gateway_enabled = local.enabled && var.ipv6_egress_only_internet_gateway_enabled
+  ipv6_egress_only_internet_gateway_enabled = local.enabled && var.egress_only_internet_gateway_enabled
 }
 
 module "label" {
