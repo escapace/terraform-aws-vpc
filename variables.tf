@@ -25,7 +25,7 @@ variable "dns_hostnames_enabled" {
   default     = true
 }
 
-locals { dns_hostnames_enabled = coalesce(var.enable_dns_hostnames, var.dns_hostnames_enabled) }
+locals { dns_hostnames_enabled = coalesce(var.dns_hostnames_enabled) }
 
 variable "dns_support_enabled" {
   type        = bool
@@ -33,7 +33,7 @@ variable "dns_support_enabled" {
   default     = true
 }
 
-locals { dns_support_enabled = coalesce(var.enable_dns_support, var.dns_support_enabled) }
+locals { dns_support_enabled = coalesce(var.dns_support_enabled) }
 
 variable "classiclink_enabled" {
   type        = bool
@@ -41,7 +41,7 @@ variable "classiclink_enabled" {
   default     = false
 }
 
-locals { classiclink_enabled = coalesce(var.enable_classiclink, var.classiclink_enabled) }
+locals { classiclink_enabled = coalesce(var.classiclink_enabled) }
 
 variable "classiclink_dns_support_enabled" {
   type        = bool
@@ -49,7 +49,7 @@ variable "classiclink_dns_support_enabled" {
   default     = false
 }
 
-locals { classiclink_dns_support_enabled = coalesce(var.enable_classiclink_dns_support, var.classiclink_dns_support_enabled) }
+locals { classiclink_dns_support_enabled = coalesce(var.classiclink_dns_support_enabled) }
 
 variable "default_security_group_deny_all" {
   type        = bool
@@ -60,7 +60,7 @@ variable "default_security_group_deny_all" {
     EOT
 }
 
-locals { default_security_group_deny_all = local.enabled && coalesce(var.enable_default_security_group_with_custom_rules, var.default_security_group_deny_all) }
+locals { default_security_group_deny_all = local.enabled && coalesce(var.default_security_group_deny_all) }
 
 variable "internet_gateway_enabled" {
   type        = bool
@@ -68,7 +68,7 @@ variable "internet_gateway_enabled" {
   default     = true
 }
 
-locals { internet_gateway_enabled = local.enabled && coalesce(var.enable_internet_gateway, var.internet_gateway_enabled) }
+locals { internet_gateway_enabled = local.enabled && coalesce(var.internet_gateway_enabled) }
 
 variable "ipv6_enabled" {
   type        = bool
@@ -76,7 +76,7 @@ variable "ipv6_enabled" {
   default     = true
 }
 
-locals { ipv6_enabled = coalesce(var.assign_generated_ipv6_cidr_block, var.ipv6_enabled) }
+locals { ipv6_enabled = coalesce(var.ipv6_enabled) }
 
 variable "ipv6_egress_only_internet_gateway_enabled" {
   type        = bool
