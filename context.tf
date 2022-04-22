@@ -5,7 +5,7 @@
 
 module "this" {
   source  = "app.terraform.io/escapace/label/null"
-  version = "1.3.1"
+  version = "1.3.2"
 
   enabled             = var.enabled
   namespace           = var.namespace
