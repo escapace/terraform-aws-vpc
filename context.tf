@@ -4,8 +4,8 @@
 #
 
 module "this" {
-  source  = "app.terraform.io/escapace/label/null"
-  version = "1.3.2"
+  source  = "escapace/label/null"
+  version = "1.4.2"
 
   enabled             = var.enabled
   namespace           = var.namespace
@@ -29,6 +29,7 @@ module "this" {
 }
 
 # Copy contents of escapace/terraform-null-label/variables.tf here
+
 variable "context" {
   type = any
   default = {
