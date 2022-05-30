@@ -20,7 +20,6 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_label"></a> [label](#module\_label) | app.terraform.io/escapace/label/null | 1.3.1 |
 | <a name="module_this"></a> [this](#module\_this) | escapace/label/null | 1.4.2 |
 
 ## Resources

@@ -3,13 +3,6 @@ locals {
   ipv6_egress_only_internet_gateway_enabled = local.enabled && var.egress_only_internet_gateway_enabled
 }
 
-module "label" {
-  source  = "app.terraform.io/escapace/label/null"
-  version = "1.3.1"
-
-  context = module.this.context
-}
-
 resource "aws_vpc" "default" {
   count = local.enabled ? 1 : 0
 
@@ -21,7 +14,7 @@ resource "aws_vpc" "default" {
   enable_classiclink               = local.classiclink_enabled
   enable_classiclink_dns_support   = local.classiclink_dns_support_enabled
   assign_generated_ipv6_cidr_block = local.ipv6_enabled
-  tags                             = module.label.tags
+  tags                             = module.this.tags
 }
 
 # If `aws_default_security_group` is not defined, it will be created implicitly with access `0.0.0.0/0`
@@ -29,21 +22,21 @@ resource "aws_default_security_group" "default" {
   count = local.default_security_group_deny_all ? 1 : 0
 
   vpc_id = aws_vpc.default[0].id
-  tags   = merge(module.label.tags, { Name = "Default Security Group" })
+  tags   = merge(module.this.tags, { Name = "Default Security Group" })
 }
 
 resource "aws_internet_gateway" "default" {
   count = local.internet_gateway_enabled ? 1 : 0
 
   vpc_id = aws_vpc.default[0].id
-  tags   = module.label.tags
+  tags   = module.this.tags
 }
 
 resource "aws_egress_only_internet_gateway" "default" {
   count = local.ipv6_egress_only_internet_gateway_enabled ? 1 : 0
 
   vpc_id = aws_vpc.default[0].id
-  tags   = module.label.tags
+  tags   = module.this.tags
 }
 
 resource "aws_vpc_ipv4_cidr_block_association" "default" {
