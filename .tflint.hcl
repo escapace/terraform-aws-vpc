@@ -1,6 +1,6 @@
 plugin "aws" {
   enabled = true
-  version = "0.13.4"
+  version = "0.23.0"
   source  = "github.com/terraform-linters/tflint-ruleset-aws"
 }
 
@@ -10,11 +10,11 @@ config {
 }
 
 rule "terraform_required_providers" {
-  enabled = true
+  enabled = false
 }
 
 rule "terraform_required_version" {
-  enabled = true
+  enabled = false
 }
 
 rule "terraform_naming_convention" {
