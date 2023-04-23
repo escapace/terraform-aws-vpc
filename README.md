@@ -5,22 +5,22 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.9 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.16.0 |
-| <a name="requirement_local"></a> [local](#requirement\_local) | >= 2.2.3 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.1.1 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4.5 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.64.0 |
+| <a name="requirement_local"></a> [local](#requirement\_local) | >= 2.4.0 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.2.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.16.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.64.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_this"></a> [this](#module\_this) | escapace/label/null | 1.4.2 |
+| <a name="module_this"></a> [this](#module\_this) | escapace/label/null | 1.5.0 |
 
 ## Resources
 
