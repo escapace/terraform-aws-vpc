@@ -35,22 +35,6 @@ variable "dns_support_enabled" {
 
 locals { dns_support_enabled = coalesce(var.dns_support_enabled) }
 
-variable "classiclink_enabled" {
-  type        = bool
-  description = "A boolean flag to enable/disable ClassicLink for the VPC"
-  default     = false
-}
-
-locals { classiclink_enabled = coalesce(var.classiclink_enabled) }
-
-variable "classiclink_dns_support_enabled" {
-  type        = bool
-  description = "A boolean flag to enable/disable ClassicLink DNS Support for the VPC"
-  default     = false
-}
-
-locals { classiclink_dns_support_enabled = coalesce(var.classiclink_dns_support_enabled) }
-
 variable "default_security_group_deny_all" {
   type        = bool
   default     = true
