@@ -11,8 +11,6 @@ resource "aws_vpc" "default" {
   instance_tenancy                 = var.instance_tenancy
   enable_dns_hostnames             = local.dns_hostnames_enabled
   enable_dns_support               = local.dns_support_enabled
-  enable_classiclink               = local.classiclink_enabled
-  enable_classiclink_dns_support   = local.classiclink_dns_support_enabled
   assign_generated_ipv6_cidr_block = local.ipv6_enabled
   tags                             = module.this.tags
 }
