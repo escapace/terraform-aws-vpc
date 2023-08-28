@@ -3,10 +3,10 @@ locals {
   ipv6_egress_only_internet_gateway_enabled = local.enabled && var.egress_only_internet_gateway_enabled
 }
 
+# tfsec:ignore:aws-ec2-require-vpc-flow-logs-for-all-vpcs
 resource "aws_vpc" "default" {
   count = local.enabled ? 1 : 0
 
-  #bridgecrew:skip=BC_AWS_LOGGING_9:VPC Flow Logs are meant to be enabled by terraform-aws-vpc-flow-logs-s3-bucket and/or terraform-aws-cloudwatch-flow-logs
   cidr_block                       = var.cidr_block
   instance_tenancy                 = var.instance_tenancy
   enable_dns_hostnames             = local.dns_hostnames_enabled
